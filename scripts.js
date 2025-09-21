@@ -2,7 +2,7 @@ const key = "449cfc1aceafc5e57f7ddfc15928e8d1";
 
 function colocarDadosNaTela(dados) {
     document.querySelector(".cidade").innerHTML = `Tempo em ${dados.name}`;
-    document.querySelector(".temp").innerHTML = `${dados.main.temp} °C`;
+    document.querySelector(".temp").innerHTML = `${Math.floor(dados.main.temp)} °C`;
     document.querySelector(".texto-previsao").innerHTML = dados.weather[0].description;
     document.querySelector(".img-previsao").src = `https://openweathermap.org/img/wn/${dados.weather[0].icon}.png`;
     document.querySelector(".umidade").innerHTML = `Umidade: ${dados.main.humidity}%`;
