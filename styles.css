@@ -2,21 +2,24 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family:"Open Sans", sans-serif;
+    font-family: "Open Sans", sans-serif;
 }
 
 body {
     width: 100vw;
     height: 100vh;
     display: flex;
-    justify-content: center; /* eixo x */
-    align-items: center; /* eixo y */
-    background-image: url("https://picsum.photos/1920/1080?random=1");
+    justify-content: center;
+    /* eixo x */
+    align-items: center;
+    /* eixo y */
+    background-image: url("./fundo.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
 
 }
+
 .caixa-maior {
     background: #000000;
     opacity: 0.8;
@@ -42,7 +45,7 @@ body {
     outline: none;
     padding: 10px;
     border-radius: 50px;
-    background-color:#dddddd;
+    background-color: #dddddd;
     cursor: pointer;
     float: right;
 }
@@ -58,7 +61,7 @@ body {
     font-size: 28px;
     font-weight: 300;
     margin-top: 20px;
-    
+
 }
 
 .caixa-media {
@@ -79,7 +82,7 @@ body {
 
 .texto-previsao {
     color: #ffffff;
-    
+
     margin-left: 20px;
     text-transform: capitalize;
 }
