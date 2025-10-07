@@ -1,6 +1,7 @@
-# Deploy de site estático (HTML, CSS, JS) para Azure App Service
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Deploy static site to Azure Web App - App-Clima
+name: Build and deploy Node.js app to Azure Web App - app-clima
 
 on:
   push:
@@ -9,22 +10,56 @@ on:
   workflow_dispatch:
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read #This is required for actions/checkout
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js version
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22.x'
+
+      - name: npm install, build, and test
+        run: |
+          npm install
+          npm run build --if-present
+          npm run test --if-present
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v4
+        with:
+          name: node-app
+          path: .
+
   deploy:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout código do repositório
-        uses: actions/checkout@v4
+    needs: build
+    permissions:
+      id-token: write #This is required for requesting the JWT
+      contents: read #This is required for actions/checkout
 
-      - name: Login no Azure
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v4
+        with:
+          name: node-app
+      
+      - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_910C8A9AE68E4726903C9132C2662F58 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_0F981BE3069541EBBF6D739DD3DAA9DA }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_6612FE97ADBC47D19D71BB9C0905D7FE }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_A6FCC72247094D21B000DDEFC9B0AC7A }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_94BC672D413444AD92948B10BDBCB756 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_0462B9D51DD94548989D06085C646BF7 }}
 
-      - name: Deploy para Azure Web App
+      - name: 'Deploy to Azure Web App'
+        id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'App-Clima'
+          app-name: 'app-clima'
           slot-name: 'Production'
           package: .
+          
